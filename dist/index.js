@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /**
  * This module provides access to the News API
  * https://newsapi.org/
@@ -19,9 +19,15 @@ require("core-js/modules/es.symbol.iterator");
 
 require("core-js/modules/es.array.concat");
 
+require("core-js/modules/es.array.filter");
+
+require("core-js/modules/es.array.for-each");
+
 require("core-js/modules/es.array.from");
 
 require("core-js/modules/es.array.index-of");
+
+require("core-js/modules/es.array.is-array");
 
 require("core-js/modules/es.array.iterator");
 
@@ -37,7 +43,15 @@ require("core-js/modules/es.map");
 
 require("core-js/modules/es.object.create");
 
+require("core-js/modules/es.object.define-properties");
+
 require("core-js/modules/es.object.define-property");
+
+require("core-js/modules/es.object.get-own-property-descriptor");
+
+require("core-js/modules/es.object.get-own-property-descriptors");
+
+require("core-js/modules/es.object.keys");
 
 require("core-js/modules/es.object.set-prototype-of");
 
@@ -51,7 +65,11 @@ require("core-js/modules/es.regexp.to-string");
 
 require("core-js/modules/es.string.iterator");
 
+require("core-js/modules/web.dom-collections.for-each");
+
 require("core-js/modules/web.dom-collections.iterator");
+
+require("core-js/modules/web.url");
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -64,6 +82,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -93,11 +117,10 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var fetch = require('node-fetch'),
-    qs = require('querystring'),
-    host = 'https://newsapi.org';
+var fetch = require("node-fetch"),
+    host = "https://newsapi.org";
 
-var CORSProxyUrl = ''; // To be set by user if declared in options
+var CORSProxyUrl = ""; // To be set by user if declared in options
 
 var API_KEY; // To be set by clients
 
@@ -108,9 +131,9 @@ var NewsAPI = /*#__PURE__*/function () {
     _classCallCheck(this, NewsAPI);
 
     var corsProxyUrl = options.corsProxyUrl;
-    CORSProxyUrl = corsProxyUrl ? corsProxyUrl : ''; //assigns to global
+    CORSProxyUrl = corsProxyUrl ? corsProxyUrl : ""; //assigns to global
 
-    if (!apiKey) throw new Error('No API key specified');
+    if (!apiKey) throw new Error("No API key specified");
     API_KEY = apiKey;
     this.v2 = {
       topHeadlines: function topHeadlines() {
@@ -121,12 +144,12 @@ var NewsAPI = /*#__PURE__*/function () {
         var _splitArgsIntoOptions = splitArgsIntoOptionsAndCallback(args),
             _splitArgsIntoOptions2 = _splitArgsIntoOptions.params,
             params = _splitArgsIntoOptions2 === void 0 ? {
-          language: 'en'
+          language: "en"
         } : _splitArgsIntoOptions2,
             options = _splitArgsIntoOptions.options,
             cb = _splitArgsIntoOptions.cb;
 
-        var url = createUrlFromEndpointAndOptions('/v2/top-headlines', params);
+        var url = createUrlFromEndpointAndOptions("/v2/top-headlines", params);
         return getDataFromWeb(url, options, API_KEY, cb);
       },
       everything: function everything() {
@@ -139,7 +162,7 @@ var NewsAPI = /*#__PURE__*/function () {
             options = _splitArgsIntoOptions3.options,
             cb = _splitArgsIntoOptions3.cb;
 
-        var url = createUrlFromEndpointAndOptions('/v2/everything', params);
+        var url = createUrlFromEndpointAndOptions("/v2/everything", params);
         return getDataFromWeb(url, options, API_KEY, cb);
       },
       sources: function sources() {
@@ -152,7 +175,7 @@ var NewsAPI = /*#__PURE__*/function () {
             options = _splitArgsIntoOptions4.options,
             cb = _splitArgsIntoOptions4.cb;
 
-        var url = createUrlFromEndpointAndOptions('/v2/sources', params);
+        var url = createUrlFromEndpointAndOptions("/v2/sources", params);
         return getDataFromWeb(url, options, API_KEY, cb);
       }
     };
@@ -170,7 +193,7 @@ var NewsAPI = /*#__PURE__*/function () {
           options = _splitArgsIntoOptions5.options,
           cb = _splitArgsIntoOptions5.cb;
 
-      var url = createUrlFromEndpointAndOptions('/v1/sources', params);
+      var url = createUrlFromEndpointAndOptions("/v1/sources", params);
       return getDataFromWeb(url, options, null, cb);
     }
   }, {
@@ -185,7 +208,7 @@ var NewsAPI = /*#__PURE__*/function () {
           options = _splitArgsIntoOptions6.options,
           cb = _splitArgsIntoOptions6.cb;
 
-      var url = createUrlFromEndpointAndOptions('/v1/articles', params);
+      var url = createUrlFromEndpointAndOptions("/v1/articles", params);
       return getDataFromWeb(url, options, API_KEY, cb);
     }
   }]);
@@ -227,7 +250,7 @@ function splitArgsIntoOptionsAndCallback(args) {
   if (args.length > 1) {
     var possibleCb = args[args.length - 1];
 
-    if ('function' === typeof possibleCb) {
+    if ("function" === typeof possibleCb) {
       cb = possibleCb;
       options = args.length === 3 ? args[1] : undefined;
     } else {
@@ -235,9 +258,9 @@ function splitArgsIntoOptionsAndCallback(args) {
     }
 
     params = args[0];
-  } else if ('object' === _typeof(args[0])) {
+  } else if ("object" === _typeof(args[0])) {
     params = args[0];
-  } else if ('function' === typeof args[0]) {
+  } else if ("function" === typeof args[0]) {
     cb = args[0];
   }
 
@@ -257,7 +280,7 @@ function splitArgsIntoOptionsAndCallback(args) {
 
 
 function createUrlFromEndpointAndOptions(endpoint, options) {
-  var query = qs.stringify(options);
+  var query = new URLSearchParams(_objectSpread({}, options)).toString();
   var baseURL = "".concat(CORSProxyUrl).concat(host).concat(endpoint);
   return query ? "".concat(baseURL, "?").concat(query) : baseURL;
 }
@@ -271,21 +294,21 @@ function createUrlFromEndpointAndOptions(endpoint, options) {
 
 
 function getDataFromWeb(url, options, apiKey, cb) {
-  var useCallback = 'function' === typeof cb; // CORS Headers by default
+  var useCallback = "function" === typeof cb; // CORS Headers by default
 
   var reqOptions = {
-    'mode': 'cors',
+    mode: "cors",
     headers: {
-      'Access-Control-Allow-Origin': '*'
+      "Access-Control-Allow-Origin": "*"
     }
   };
 
   if (apiKey) {
-    reqOptions.headers['X-Api-Key'] = apiKey;
+    reqOptions.headers["X-Api-Key"] = apiKey;
   }
 
   if (options && options.noCache === true) {
-    reqOptions.headers['X-No-Cache'] = 'true';
+    reqOptions.headers["X-No-Cache"] = "true";
   }
 
   return fetch(url, reqOptions).then(function (res) {
@@ -295,7 +318,7 @@ function getDataFromWeb(url, options, apiKey, cb) {
         res = _ref2[0],
         body = _ref2[1];
 
-    if (body.status === 'error') throw new NewsAPIError(body); // 'showHeaders' option can be used for clients to debug response headers
+    if (body.status === "error") throw new NewsAPIError(body); // 'showHeaders' option can be used for clients to debug response headers
     // response will be in form of { headers, body }
 
     if (options && options.showHeaders) {
